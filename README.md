@@ -126,9 +126,9 @@ To convert between the two formats:
 
 The convert method can accept three argument methods:
 
-tofile
-overwrite
-display
+**tofile**
+**overwrite**
+**display**
 
 
 # Filtering Personal Data
@@ -138,9 +138,9 @@ Filtering can accept three arguments where wildcard filtering can be used.
 
 Those arguments are:
 
-name
-phoneNumber
-address
+**name**
+**phoneNumber**
+**address**
 
 Filtering example below.
 
@@ -172,8 +172,8 @@ Prompts will request the name, phone number and address. Once the information ha
 
 Flags
 
-file File you are working on.
--d --display Display data.
+**file** File you are working on.
+**-d --display** Display data.
 ######PersonalDetails-add personalData.json -d
 
 
@@ -184,11 +184,11 @@ You can convert formats. Formats are determined automatically based on the file 
 
 Flags
 
-fromFile From the file.
-toFIle To the file.
--o --overwrite Overwrite the existing toFile
--d --display Display the converted data.
-PersonalDetails-convert the personalData.json personalData.xml -o -d
+**fromFile** From the file.\
+**toFile** To the file.\
+**-o --overwrite** Overwrite the existing toFile\
+**-d --display** Display the converted data.\
+**PersonalDetails-convert** the personalData.json personalData.xml -o -d
 
 
 # PersonalDetails-display
@@ -198,8 +198,8 @@ This command displays the data.
 
 Flags
 
-file File you are working on.
-PersonalDetails-displays the personalData.json
+**file** File you are working on.\
+**PersonalDetails** displays the personalData.json
 
 
 # PersonalDetails-filter
@@ -209,8 +209,8 @@ This is to filter personal data from the file worked on. Prompts will request th
 
 Flags
 
-file File you are working on.\
-##### personaldata-filter personalData.json
+**file** File you are working on.\
+##### Personaldata-filter personalData.json
 Name Filter: S*
 Phone Number Filter: 2*
 Address Filter:
