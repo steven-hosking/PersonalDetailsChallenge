@@ -209,8 +209,8 @@ This is to filter personal data from the file worked on. Prompts will request th
 
 Flags
 
-file File you are working on.
-personaldata-filter personalData.json
+file File you are working on.\
+##### personaldata-filter personalData.json
 Name Filter: S*
 Phone Number Filter: 2*
 Address Filter:
