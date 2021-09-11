@@ -23,8 +23,8 @@ The brief for this challenge is as follows:
 
 In Python or C++ write a module or small library which shows how you would take a set of personal data, where each record contains:
 
-name
-address
+name\
+address\
 phone number
 
 And:
