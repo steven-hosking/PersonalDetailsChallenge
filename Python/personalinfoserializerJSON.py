@@ -30,8 +30,8 @@ class Serializing(Serializer):
             return None
         self._personList[:] = []
         self._personList = [Person(name=x['name'],
-                                                           phoneNumber=x['phoneNumber'],
-                                                           address=x['address']) for x in personList]
+                            phoneNumber=x['phoneNumber'],
+                            address=x['address']) for x in personList]
 
         return self._personList
 
