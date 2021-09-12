@@ -191,7 +191,7 @@ The package comes with some useful commands that you can use.
 
 ## PersonalDetails-add
 
-Prompts will request the name, phone number and address. Once the information has been entered, personal information will be saved into the file.
+This is to add details and are saved to the file.
 
 **Flags**
 
@@ -204,7 +204,7 @@ PersonalDetails-add personaldetails.json -d
 
 ## PersonalDetails-convert
 
-You can convert formats. Formats are determined automatically based on the file extension of the file.
+The extension of the file determines the conversion.
 
 **Flags**
 
@@ -219,11 +219,11 @@ spersonaldata-convert personalData.json personalData.xml -o -d
 
 ## PersonalDetails-display
 
-This command displays the data.
+Displays data.
 
 **Flags**
 
-- `file` File to be operated on.
+- `file` File being worked on.
 
 ```shell script
 PersonalDetails-display personaldetails.json
@@ -235,7 +235,7 @@ This is to filter personal data from the file worked on. Prompts will request th
 
 **Flags**
 
-- `file` File to be operated on.
+- `file` File being worked on.
 
 ```shell script
 PersonalDetails-filter personal.json
