@@ -4,6 +4,9 @@ import re
 import fnmatch
 import importlib
 
+from exceptionlibrary import PersonAlreadyExistsError, UnsupportedFormatError, ConfigurationError
+from personlibrary import Person
+
 #Personal class.
 class PersonDetails(object):
 
@@ -28,7 +31,7 @@ class PersonDetails(object):
 
     #Add new person.
     def add(self, name, phoneNumber, address, allowDuplicate=False):
-        newPerson = PersonDetails.personlibrary.Person(name, phoneNumber, address)
+        newPerson = Person(name, phoneNumber, address)
         if not allowDuplicate:
             self.hasPerson(newPerson, raiseException=True)
 
@@ -51,7 +54,7 @@ class PersonDetails(object):
             return False
         if [x for x in self._personList if personInstance == x]:
             if raiseException:
-                raise PersonDetails.exceptionlibrary.PersonAlreadyExistsError('Person with the following data already exists, name: "{}", phone number: "{}", address: "{}"'.format(personInstance.name(),
+                raise PersonAlreadyExistsError('Person with the following data already exists, name: "{}", phone number: "{}", address: "{}"'.format(personInstance.name(),
                                                                                                                                                                                 personInstance.phoneNumber(),
                                                                                                                                                                                 personInstance.address()))
             return True
@@ -92,7 +95,7 @@ class PersonDetails(object):
         toFormat = os.path.splitext(toFile)[1][1:].upper()
         formatList = PersonDetails.getFormats()
         if not toFormat in formatList:
-            raise PersonDetails.exceptionlibrary.UnsupportedFormatError('This format is not supported: {}'.format(toFormat))
+            raise UnsupportedFormatError('This format is not supported: {}'.format(toFormat))
 
         self.deserialize()
 
@@ -106,7 +109,7 @@ class PersonDetails(object):
     #Filter personal data by using wildcards.
     def filter(self, name=None, phoneNumber=None, address=None):
         if not self._serializer:
-            raise PersonDetails.exceptionlibrary.ConfigurationError('You must call serialize or deserialize method in order to display data.')
+            raise ConfigurationError('You must call serialize or deserialize method in order to display data.')
         if not self._serializer.personList():
             return []
 
@@ -131,7 +134,7 @@ class PersonDetails(object):
         formatList = []
 
         for moduleName in pythonModuleList:
-            formatName = re.search(r'personalDetailsSerializer([A-Z]{2,})Lib.py$', moduleName)
+            formatName = re.search(r'PersonSerializer([A-Z]{2,})Lib.py$', moduleName)
             if formatName:
                 formatList.append(formatName.groups()[0])
 
@@ -144,21 +147,21 @@ class PersonDetails(object):
         if not formatName in formatList:
             formatName = os.path.splitext(formatName)[1][1:].upper()
             if not formatName:
-                raise PersonDetails.exceptionlibrary.UnsupportedFormatError('No valid format found, valid formats are: {}'.format(', '.join(PersonDetails.getFormats())))
+                raise UnsupportedFormatError('No valid format found, valid formats are: {}'.format(', '.join(PersonDetails.getFormats())))
         if not formatName in formatList:
-            raise PersonDetails.exceptionlibrary.UnsupportedFormatError('This format is not supported: {}'.format(formatName))
+            raise UnsupportedFormatError('This format is not supported: {}'.format(formatName))
 
-        serializerModuleName = 'personalDataSerializer{}Lib'.format(formatName)
+        serializerModuleName = 'PersonSerializer{}Lib'.format(formatName)
         module = None
 
         try:
             module = importlib.import_module('PersonDetails.{}'.format(serializerModuleName))
         except ImportError as error:
-            raise PersonDetails.exceptionlibrary.UnsupportedFormatError('This format is not supported: {}\nError: {}'.format(formatName, error))
+            raise UnsupportedFormatError('This format is not supported: {}\nError: {}'.format(formatName, error))
 
         #reload (module)
 
         if not hasattr(module, 'Serializer'):
-            raise PersonDetails.exceptionlibrary.ConfigurationError('Module does not have a class named "Serializer" {}'.format(str(module)))
+            raise ConfigurationError('Module does not have a class named "Serializer" {}'.format(str(module)))
 
         return getattr(module, 'Serializer')
