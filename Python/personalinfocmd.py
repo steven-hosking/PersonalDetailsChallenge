@@ -1,7 +1,8 @@
 #Imports
 import os
 import argparse
-import Lib
+
+from personalinfolibrary import PersonDetails 
 
 
 #Display personal data.
@@ -10,9 +11,9 @@ def display():
     parser.add_argument('file', type=str, help='File to be read')
     _args   = parser.parse_args()
     filePath = _args.file
-    personaldetails = Lib(filePath)
-    personaldetails.deserialize()
-    personaldetails.display()
+    pdinfo = PersonDetails(filePath)
+    pdinfo.deserialize()
+    pdinfo.display()
 
 #Convert personal data formats.
 def convert():
@@ -27,8 +28,8 @@ def convert():
     toFilePath   = _args.toFile
     overwrite    = _args.overwrite
     display      = _args.display
-    personaldetails = Lib(fromFilePath)
-    personaldetails.convert(toFilePath, overwrite, display)
+    pdinfo = PersonDetails(fromFilePath)
+    pdinfo.convert(toFilePath, overwrite, display)
 
 #Add new record to personal data.
 def add():
@@ -48,16 +49,15 @@ def add():
         phoneNumber = input('Phone Number: ')
     while not address:
         address = input('Address: ')
-    personaldetails = Lib(filePath)
+    pdinfo = PersonDetails(filePath)
     if os.path.isfile(filePath):
-        personaldetails.deserialize()
-    personaldetails.add(name=name, phoneNumber=phoneNumber, address=address)
-    personaldetails.serialize(overwrite=True)
+        pdinfo.deserialize()
+    pdinfo.add(name=name, phoneNumber=phoneNumber, address=address)
+    pdinfo.serialize(overwrite=True)
     if display:
-        personaldetails.display()
+        pdinfo.display()
 
 #Display filtered personal data.
-
 def filter():
     parser = argparse.ArgumentParser(description='Filter personal data')
     parser.add_argument('file', type=str, help='File')
@@ -69,12 +69,12 @@ def filter():
     phoneNumber = input('Phone Number Filter: ')
     address = input('Address Filter: ')
 
-    personaldetails = Lib(filePath)
+    pdinfo = PersonDetails(filePath)
     if os.path.isfile(filePath):
-        personaldetails.deserialize()
-    filter = personaldetails.filter(name=name, phoneNumber=phoneNumber, address=address)
+        pdinfo.deserialize()
+    filter = pdinfo.filter(name=name, phoneNumber=phoneNumber, address=address)
     if not filter:
         print ("No personal details found.")
         return
-    personaldetails.setPersonList(filter)
-    personaldetails.display()
+    pdinfo.setPersonList(filter)
+    pdinfo.display()
