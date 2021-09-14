@@ -1,6 +1,6 @@
 # Imports
 import json
-from   pprint import pprint
+from pprint import pprint
 
 from personlibrary import Person
 from personalinfoserializerabsolute import Serializer
@@ -8,7 +8,7 @@ from personalinfoserializerabsolute import Serializer
 
 
 # Serializer
-class Serializing(Serializer):
+class SerializingJSON(Serializer):
     def __init__(self, personList=[]):
         Serializer.__dict__['__init__'](self, personList)
 
@@ -30,8 +30,8 @@ class Serializing(Serializer):
             return None
         self._personList[:] = []
         self._personList = [Person(name=x['name'],
-                            phoneNumber=x['phoneNumber'],
-                            address=x['address']) for x in personList]
+                                                           phoneNumber=x['phoneNumber'],
+                                                           address=x['address']) for x in personList]
 
         return self._personList
 
