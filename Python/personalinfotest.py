@@ -54,7 +54,7 @@ class JSON(unittest.TestCase):
 
         self.assertFalse(pdinfo.hasPerson(p2))
         self.assertTrue(pdinfo.convert(self._xmlFile, overwrite=True))
-        self.assertEquals(len(pdinfo.filter(name='Lisa*')), 1)
+        self.assertEquals(len(pdinfo.filter(name='P*')), 1)
         self.assertEquals(len(pdinfo.filter(phoneNumber='2*')), 1)
 
 
