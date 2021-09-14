@@ -2,20 +2,23 @@
 import os
 import unittest
 
+from personlibrary import Person
 from personalinfolibrary import PersonDetails
+from personalinfoserializerJSON import SerializingJSON
+from personalinfoserializerXML import SerializingXML
 
 TEST_FOLDER = os.path.abspath(os.path.join(__file__, '..', '..', '..', 'test'))
 
 class Functionalities(unittest.TestCase):
     def test_getFormats(self):
         self.assertEquals(['JSON', 'XML'],
-                          PersonDetails.personalDataLib.PersonalData.getFormats())
+                          PersonDetails.getFormats())
     def test_getSerializerJSON(self):
-        self.assertFalse(isinstance(PersonDetails.personalDataLib.PersonalData.getSerializer('JSON'),
-                         PersonDetails.personalinfoserializerJSON.Serializer))
+        self.assertFalse(isinstance(PersonDetails.getSerializer('JSON'),
+                         SerializingJSON))
     def test_getSerializerXML(self):
-        self.assertFalse(isinstance(PersonDetails.personalDataLib.PersonalData.getSerializer('XML'),
-                         PersonDetails.personalinfoserializerXML.Serializer))
+        self.assertFalse(isinstance(PersonDetails.getSerializer('XML'),
+                         SerializingXML))
 class JSON(unittest.TestCase):
     def setUp(self):
         self._jsonFile = os.path.join(TEST_FOLDER, 'personaldetails.json')
@@ -28,38 +31,31 @@ class JSON(unittest.TestCase):
             os.remove(self._xmlFile)
 
     def test_all(self):
-        p1 = PersonDetails.personLib.Person(name='Steven Hosking',
-                                            phoneNumber='0431675792',
-                                            address='22 Wallaby Way Sydney')
+        p1 = Person(name='Steven Hosking',
+                    phoneNumber='04123548765',
+                    address='22 Wallaby Way Sydney')
 
-        personalData = PersonDetails.personalDataLib.PersonalData(filePath=self._jsonFile)
+        pdinfo = PersonDetails(filePath=self._jsonFile)
+        pdinfo.addByObject(p1, allowDuplicate=True)
 
-        personalData.addByObject(p1, allowDuplicate=True)
+        self.assertTrue(pdinfo.serialize(overwrite=True))
 
-        self.assertTrue(personalData.serialize(overwrite=True))
+        pdinfo = PersonDetails(filePath=self._jsonFile)
+        pdinfo.deserialize()
+        pdinfo.add(name='P Sherman',
+                    phoneNumber='04765493754',
+                    address='wallaby way Sydney',
+                    allowDuplicate=True)
 
-        personalData = PersonDetails.personalDataLib.PersonalData(filePath=self._jsonFile)
+        self.assertTrue(pdinfo.serialize(overwrite=True))
+        self.assertTrue(pdinfo.hasPerson(p1))
 
-        personalData.deserialize()
+        p2 = Person(name='Dory Fish')
 
-        personalData.add(name='Lisa Gane',
-                         phoneNumber='04765493754',
-                         address='wallaby way Sydney',
-                         allowDuplicate=True)
-
-        self.assertTrue(personalData.serialize(overwrite=True))
-
-        self.assertTrue(personalData.hasPerson(p1))
-
-        p2 = PersonDetails.personLib.Person(name='Luke Marks')
-
-        self.assertFalse(personalData.hasPerson(p2))
-
-        self.assertTrue(personalData.convert(self._xmlFile, overwrite=True))
-
-        self.assertEquals(len(personalData.filter(name='Lisa*')), 1)
-
-        self.assertEquals(len(personalData.filter(phoneNumber='2*')), 1)
+        self.assertFalse(pdinfo.hasPerson(p2))
+        self.assertTrue(pdinfo.convert(self._xmlFile, overwrite=True))
+        self.assertEquals(len(pdinfo.filter(name='Lisa*')), 1)
+        self.assertEquals(len(pdinfo.filter(phoneNumber='2*')), 1)
 
 
 if __name__ == '__main__':
