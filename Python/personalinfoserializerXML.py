@@ -6,7 +6,7 @@ from personalinfoserializerabsolute import Serializer
 
 
 # Serializer
-class Serializing(Serializer):
+class SerializingXML(Serializer):
     def __init__(self, personList=[]):
         Serializer.__init__(self, personList)
 
