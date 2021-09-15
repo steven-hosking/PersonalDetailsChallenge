@@ -101,7 +101,7 @@ pdinfo.serialize(overwrite=True)
 
 Operating on an existing files is exactly the same.
 
-You can also use `PersonalDetails.add` method to provide raw
+You can also use `pdinfo.add` method to provide raw
 information to add a new peron.
 
 ```python
@@ -117,7 +117,7 @@ pdinfo.serialize(overwrite=True)
 
 # Displaying Personal Details
 
-In order to display, you can invoke `PersonalDetails.display`.
+In order to display, you can invoke `pdinfo.display`.
 
 ```python
 pdinfo = PersonalDetails(filePath=JSON_FILE)
@@ -129,10 +129,10 @@ pdinfo.display()
 
 # Converting Personal Details
 
-You can convert one format to another by using `PersonalDetails.convert` method.
+You can convert one format to another by using `pdinfo.convert` method.
 
 ```python
-print PersonalDetails.getFormats()
+print pdinfo.getFormats()
 
 #['JSON', 'XML']
 ```
@@ -155,14 +155,14 @@ The `convert` method accepts three arguments.
 
 # Filtering Personal Details
 
-Filtering personal data is done by using `PersonalDetails.filter` method.
+Filtering personal data is done by using `pdinfo.filter` method.
 
 - `name`
 - `phoneNumber`
 - `address`
 
 ```python
-pdinfo = personalinfolibrary.PersonalData(filePath=JSON_FILE)
+pdinfo = PersonalData(filePath=JSON_FILE)
 
 pdinfo.deserialize()
 
